@@ -1,0 +1,14 @@
+SQL Injection - Lab 1
+
+Goal:
+Display unreleased products by exploiting a SQL injection vulnerability in the category filter.
+
+Steps:
+1. Intercept the request that sets the product category filter using Burp Suite.
+2. Locate the `category` parameter.
+3. Modify the parameter value to:
+
+' OR 1=1--
+
+4. Submit the modified request.
+5. Observe that unreleased products are now displayed in the response.
