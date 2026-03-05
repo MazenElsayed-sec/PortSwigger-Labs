@@ -1,0 +1,18 @@
+SQL Injection - Lab 4
+
+Goal:
+Display the database version using a UNION SQL injection attack.
+
+Steps:
+1. Intercept the request that sets the product category filter using Burp Suite.
+2. Locate the category parameter.
+3. Determine the number of returned columns using the payload:
+
+'+UNION+SELECT+null,null-- -
+
+4. Confirm that the query returns two columns with text data.
+5. Use the following payload to retrieve the database version:
+
+'+UNION+SELECT+@@version,null-- -
+
+6. Submit the request and observe the database version in the response.
