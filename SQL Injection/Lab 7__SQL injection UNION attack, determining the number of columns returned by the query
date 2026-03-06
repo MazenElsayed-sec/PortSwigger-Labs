@@ -1,0 +1,24 @@
+SQL Injection - Lab 7
+
+Goal:
+Determine the number of columns returned by the query using a UNION SQL injection attack.
+
+Steps:
+1. Intercept the request that sets the product category filter using Burp Suite.
+2. Locate the category parameter.
+3. Test the UNION injection with the following payload:
+
+'+UNION+SELECT+NULL-- -
+
+4. Observe that an error occurs.
+5. Add another NULL value and try again:
+
+'+UNION+SELECT+NULL,NULL-- -
+
+6. Continue adding NULL values until the error disappears.
+
+7. The correct payload is:
+
+'+UNION+SELECT+NULL,NULL,NULL-- -
+
+This confirms that the query returns 3 columns.
