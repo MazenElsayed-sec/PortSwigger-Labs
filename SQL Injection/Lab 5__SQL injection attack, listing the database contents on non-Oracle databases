@@ -1,9 +1,9 @@
 SQL Injection - Lab 5
 
-Goal
+Goal:
 Retrieve usernames and passwords from the database and log in as the administrator user.
 
-Steps
+Steps:
 1. Intercept the request that sets the product category filter using Burp Suite.
 2. Locate the category parameter.
 3. Determine the number of returned columns using the payload:
