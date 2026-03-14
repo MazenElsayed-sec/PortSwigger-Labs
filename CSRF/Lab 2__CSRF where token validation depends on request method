@@ -1,0 +1,36 @@
+CSRF – Lab 2
+
+Summary:
+
+This lab contains a Cross-Site Request Forgery (CSRF) vulnerability in the email change functionality. Although the application attempts to implement CSRF protection using a token, the validation is only applied to certain HTTP request methods.
+Because of this misconfiguration, the CSRF protection can be bypassed by changing the request method.
+
+Exploitation:
+
+After intercepting the email change request using Burp Suite, it was observed that the request includes a csrf parameter. Modifying this token causes the request to be rejected, indicating that CSRF validation exists.
+However, when the request method is changed from POST to GET, the server no longer validates the CSRF token. This allows the attacker to bypass the protection mechanism.
+
+By crafting a malicious HTML page that sends a GET request to the vulnerable endpoint, a logged-in victim can be forced to change their email address.
+
+CSRF PoC:
+
+<form action="https://YOUR-LAB-ID.web-security-academy.net/my-account/change-email">
+    <input type="hidden" name="email" value="attacker@web-security-academy.net">
+</form>
+
+<script>
+document.forms[0].submit();
+</script>
+
+
+When the victim visits this page while authenticated, their browser automatically sends the request and updates their account email.
+
+Impact:
+
+Attackers can perform unauthorized actions on behalf of authenticated users despite the presence of an incomplete CSRF defense.
+
+Mitigation:
+
+* Validate CSRF tokens for all HTTP methods.
+* Restrict sensitive actions to POST requests only.
+* Implement SameSite cookies and Origin/Referer validation.
