@@ -1,1 +1,37 @@
+Description:
+The application uses analytics software that fetches the URL specified in the Referer header when a product page is loaded.
+This behavior is vulnerable to Out-of-Band SSRF.
 
+Objective:
+-Trigger an HTTP request to Burp Collaborator
+-Confirm SSRF via external interaction
+
+Tools Used:
+Burp Suite (Proxy, Repeater, Collaborator)
+
+Exploitation Steps:
+1️-Intercept Request
+-Navigate to any product page
+-Intercept the request using Burp Suite
+
+2️-Send to Repeater
+-Forward the request to Burp Repeater
+
+3️-Inject Collaborator Payload
+-Locate the Referer header
+-Right-click → Insert Collaborator Payload
+-This replaces the original URL with a unique Burp Collaborator domain
+
+4️-Send Request
+-Send the modified request
+
+5️-Check for Interaction
+-Go to Burp Collaborator tab
+-Click Poll now
+If no result appears:
+-Wait a few seconds
+-Poll again (execution is asynchronous)
+
+Result:
+-Received DNS and HTTP interactions from the target server
+-Successfully confirmed Out-of-Band SSRF vulnerability
