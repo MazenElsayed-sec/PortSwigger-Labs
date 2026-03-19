@@ -1,1 +1,51 @@
+Description:
+The application includes a stock check feature that fetches data from an internal system.
+This functionality is vulnerable to SSRF, allowing internal network scanning.
 
+Objective:
+-Discover admin interface on internal network
+-Delete user: carlos
+
+Tools Used:
+Burp Suite (Proxy, Intruder, Repeater)
+
+Exploitation Steps:
+1️-Intercept Request
+-Navigate to a product page
+-Click Check Stock
+-Intercept the request using Burp Suite
+
+2️-Send to Intruder
+-Send the request to Burp Intruder
+-Locate parameter:
+stockApi
+
+3️-Setup Payload Position
+-Modify the request to:
+http://192.168.0.1:8080/admin
+-Highlight the last octet (1)
+-Click Add § to mark it as payload position
+
+4️-Configure Payloads
+-Payload type: Numbers
+From: 1
+To: 255
+Step: 1
+
+5️-Start Attack
+-Click Start Attack
+-Sort results by Status Code
+-Look for response with status 200 (valid admin panel)
+
+6️-Identify Admin Interface
+-Find the correct IP returning 200 OK
+-Send that request to Repeater
+
+7️-Exploit SSRF
+-Modify the request:
+http://192.168.0.X:8080/admin/delete?username=carlos
+(Replace X with the discovered IP)
+
+Result:
+-Discovered internal admin interface via SSRF scanning
+-Successfully deleted user carlos
