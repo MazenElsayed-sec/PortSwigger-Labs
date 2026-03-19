@@ -1,1 +1,46 @@
+Description:
+The application contains a stock check feature that fetches data from an internal system.
+This functionality is vulnerable to Server-Side Request Forgery (SSRF), allowing access to internal resources.
 
+Objective:
+Access internal admin panel
+Delete user: carlos
+
+Tools Used:
+Burp Suite (Proxy + Repeater)
+
+Exploitation Steps:
+1️-Intercept Request
+
+Go to a product page
+Click Check Stock
+Intercept request using Burp Suite
+
+2️-Send to Repeater
+
+Forward the request to Burp Repeater
+Locate parameter:
+stockApi
+
+3️-Access Admin Panel
+
+Modify the request:
+stockApi=http://localhost/admin
+
+This reveals the internal admin interface.
+
+4️-Find Delete Endpoint
+
+From the response HTML:
+http://localhost/admin/delete?username=carlos
+
+5️-Exploit SSRF
+
+Update the request:
+
+stockApi=http://localhost/admin/delete?username=carlos
+
+Result:
+
+Gained access to internal admin panel
+Successfully deleted user carlos
