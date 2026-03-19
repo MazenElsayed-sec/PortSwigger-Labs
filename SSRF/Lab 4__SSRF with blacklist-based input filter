@@ -1,1 +1,56 @@
+Description:
+The application has a stock check feature that fetches data from an internal system.
+Two weak anti-SSRF defenses are implemented, but they can be bypassed.
 
+Objective:
+-Access admin panel
+-Delete user: carlos
+
+Tools Used:
+Burp Suite (Proxy, Repeater)
+
+Exploitation Steps:
+1️-Intercept Request
+-Navigate to a product page
+-Click Check Stock
+-Intercept the request using Burp Suite
+
+2️-Send to Repeater
+-Forward the request to Burp Repeater
+Locate parameter:
+-stockApi
+
+3️-Initial Attempt (Blocked)
+-Modify the request:
+-http://127.0.0.1/
+Request is blocked due to SSRF protection
+
+4️-Bypass Localhost Filter
+Change the URL to:
+http://127.1/
+
+Successfully bypassed IP filtering
+(Alternative representation of localhost)
+
+5️-Access Admin Panel (Blocked Again)
+Try:
+http://127.1/admin
+
+Blocked due to keyword filtering (admin)
+
+6️-Bypass Keyword Filter
+-Modify the path using case variation:
+http://127.1/ADMIN
+or:
+http://127.1/aDmIn
+
+Successfully bypassed keyword-based filter
+
+7️-Delete User
+Send final payload:
+http://127.1/ADMIN/delete?username=carlos
+
+Result:
+-Bypassed weak SSRF defenses (IP + keyword filtering)
+-Accessed admin panel
+-Successfully deleted user carlos
