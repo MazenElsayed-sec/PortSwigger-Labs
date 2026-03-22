@@ -1,0 +1,39 @@
+Description:
+The application contains an OS command injection vulnerability in the stock check functionality.
+User input is directly included in a system command and the output is returned in the response.
+
+Objective:
+-Execute the following command:
+whoami
+-Identify the current system user
+
+Tools Used:
+Burp Suite (Proxy)
+
+Exploitation Steps:
+1️-Intercept Request
+-Navigate to a product page
+-Click Check Stock
+-Intercept the request using Burp Suite
+
+2️-Identify Vulnerable Parameter
+Locate parameter:
+storeId
+
+3️-Inject Command
+-Modify the parameter value:
+storeId=1|whoami
+
+The | operator allows execution of an additional command
+
+4️-Send Request
+-Forward the request
+
+5️-Observe Response
+-The response includes the output of:
+whoami
+-Displays the current system user
+
+Result:
+-Successfully executed OS command injection
+-Retrieved system user via whoami
