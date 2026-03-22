@@ -1,0 +1,39 @@
+Description:
+The application contains a blind OS command injection vulnerability in the feedback function.
+User input is executed in a system command, but the output is not returned in the response.
+
+Objective:
+Trigger a 10-second delay to confirm command execution
+
+Tools Used:
+Burp Suite (Proxy)
+
+Exploitation Steps:
+1️-Intercept Request
+-Go to the Feedback form
+-Submit any data
+-Intercept the request using Burp Suite
+
+2️-Identify Vulnerable Parameter
+-Locate parameter:
+email
+
+3️-Inject Payload
+-Modify the parameter:
+email=x||ping+-c+10+127.0.0.1||
+
+Explanation:
+|| → executes command if previous fails
+ping -c 10 127.0.0.1 → causes ~10 second delay
+
+4️-Send Request
+-Forward the request
+
+5️-Observe Behavior
+-The response is delayed by ~10 seconds
+
+Confirms successful blind command execution
+
+Result:
+-Successfully exploited blind OS command injection
+-Verified execution using time-based delay
