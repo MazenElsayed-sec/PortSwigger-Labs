@@ -1,0 +1,42 @@
+Description:
+The application contains a blind OS command injection vulnerability in the feedback function.
+Although command output is not returned in the response, it can be retrieved by redirecting it to a file in a web-accessible directory.
+
+Objective:
+-Execute:
+whoami
+-Retrieve its output from the server
+
+Tools Used:
+-Burp Suite (Proxy)
+
+-Exploitation Steps:
+1️-Intercept Feedback Request
+-Go to the Feedback form
+-Submit any data
+-Intercept the request using Burp Suite
+
+2️-Inject Command with Output Redirection
+-Modify the email parameter:
+email=||whoami>/var/www/images/o.txt||
+-Explanation:
+|| → command injection
+> → redirects output to a file
+/var/www/images/ → writable + accessible directory
+
+3️-Send Request
+-Forward the request to execute the command
+
+4️-Retrieve Output
+-Intercept a request that loads a product image
+-Modify the filename parameter:
+filename=o.txt
+
+5️-Observe Response
+-The response now contains the output of:
+whoami
+
+Result:
+-Successfully executed blind OS command injection
+-Exfiltrated command output via file write
+-Retrieved system user
