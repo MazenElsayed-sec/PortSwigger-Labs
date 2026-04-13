@@ -1,0 +1,42 @@
+Description:
+This lab is vulnerable to Server-Side Template Injection (SSTI) due to passing an unsafe object into a Django template.
+The goal is to access sensitive data and retrieve the framework’s SECRET_KEY.
+
+Steps to Solve:
+1️-Identify the Template Engine
+-Log in using:
+content-manager:C0nt3ntM4n4g3r
+-Edit a product description template.
+-Inject an invalid expression:
+${{<%[%'"}}%\
+-Save the template and observe the error message.
+-The error indicates that the application is using Django.
+
+2️-Use Debug Feature
+-From Django documentation, the built-in tag:
+{% debug %}
+-displays available context variables.
+-Replace the invalid payload with:
+{% debug %}
+-Save the template.
+
+3️-Explore Available Objects
+-The debug output lists accessible objects.
+-Notice the presence of:
+settings
+
+4️-Extract Sensitive Data
+-From Django documentation:
+-settings contains:
+SECRET_KEY
+-Replace the debug tag with:
+{{settings.SECRET_KEY}}
+-Save the template.
+
+5️-Retrieve the Secret Key
+-The page now displays the SECRET_KEY value.
+
+Result:
+-Sensitive data exposure achieved
+-Extracted:
+Django SECRET_KEY
