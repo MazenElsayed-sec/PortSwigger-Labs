@@ -1,0 +1,20 @@
+Description
+
+This lab contains a path traversal vulnerability in the functionality used to display product images. The application does not properly validate user input, allowing access to files outside the intended directory.
+
+Objective
+
+Retrieve the contents of the /etc/passwd file.
+
+Steps to Solve
+Intercept the request using Burp Suite while loading a product image.
+Identify the parameter responsible for fetching the image (e.g., filename).
+
+Modify the filename parameter to:
+
+../../../etc/passwd
+Send the modified request to the server.
+Observe the response containing the contents of the /etc/passwd file.
+Conclusion
+
+The vulnerability occurs due to improper input validation, allowing directory traversal and unauthorized access to sensitive system files.
