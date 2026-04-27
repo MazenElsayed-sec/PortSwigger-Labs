@@ -1,0 +1,20 @@
+Description
+
+This lab contains a path traversal vulnerability in the product image functionality. The application blocks traversal sequences in the input, but then performs URL decoding afterward. This flawed logic allows attackers to bypass the filter using double URL encoding.
+
+Objective
+
+Retrieve the contents of the /etc/passwd file.
+
+Steps to Solve
+Intercept the request using Burp Suite while loading a product image.
+Identify the parameter used to specify the image file (e.g., filename).
+
+Modify the filename parameter using double URL encoding:
+
+..%252f..%252f..%252fetc/passwd
+Send the modified request to the server.
+Observe that the response contains the contents of the /etc/passwd file.
+Conclusion
+
+The application incorrectly validates input before decoding it. By using double URL encoding, traversal sequences bypass the filter and are decoded later, leading to unauthorized access to sensitive files.
