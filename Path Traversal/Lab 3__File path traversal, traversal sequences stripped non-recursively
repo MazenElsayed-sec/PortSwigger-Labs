@@ -1,0 +1,20 @@
+Description
+
+This lab contains a path traversal vulnerability in the product image functionality. The application attempts to sanitize input by stripping traversal sequences, but the filtering is flawed and can be bypassed using crafted input.
+
+Objective
+
+Retrieve the contents of the /etc/passwd file.
+
+Steps to Solve
+Intercept the request using Burp Suite while loading a product image.
+Identify the parameter used to specify the image file (e.g., filename).
+
+Modify the filename parameter to bypass the filter:
+
+....//....//....//etc/passwd
+Send the modified request to the server.
+Observe that the response contains the contents of the /etc/passwd file.
+Conclusion
+
+The application’s input sanitization is insufficient and can be bypassed using alternative traversal patterns. This allows attackers to access sensitive files outside the intended directory.
