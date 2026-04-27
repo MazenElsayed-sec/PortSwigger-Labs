@@ -1,0 +1,20 @@
+Description
+
+This lab contains a path traversal vulnerability in the product image functionality. Although the application blocks common traversal sequences (such as ../), it incorrectly treats user input as a relative path to a default working directory, allowing absolute paths to be used.
+
+Objective
+
+Retrieve the contents of the /etc/passwd file.
+
+Steps to Solve
+Intercept the request using Burp Suite while loading a product image.
+Identify the parameter used to specify the image file (e.g., filename).
+
+Modify the filename parameter to use an absolute path:
+
+/etc/passwd
+Send the modified request to the server.
+Observe that the response contains the contents of the /etc/passwd file.
+Conclusion
+
+The application attempts to block traversal sequences but fails to prevent access via absolute paths. This results in unauthorized access to sensitive files on the server.
