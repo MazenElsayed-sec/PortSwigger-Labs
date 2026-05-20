@@ -1,0 +1,33 @@
+Steps to Solve:
+
+-Log in using:
+Username: wiener
+Password: peter
+-Attempt to buy the Lightweight l33t leather jacket.
+-Locate the POST /cart request and send it to Repeater.
+-Notice that the quantity parameter only accepts 2-digit values.
+
+Example:
+
+-quantity=99
+-Send the request to Intruder.
+-Set the payload type to:
+Null payloads
+-Enable:
+Continue indefinitely
+-Start the attack and keep refreshing the cart page.
+-Observe that the total price eventually becomes a large negative integer due to integer overflow.
+-Clear the cart.
+-Create the Intruder attack again with:
+quantity=99
+-Configure Intruder to generate exactly:
+323 payloads
+-Set the resource pool:
+Maximum concurrent requests = 1
+-Start the attack.
+-After the attack finishes, send a request for:
+quantity=47
+-Confirm the cart total becomes approximately:
+ -$1221.96
+-Add another product with a suitable quantity so the total price becomes between $0 and $100.
+-Complete the purchase to solve the lab.
