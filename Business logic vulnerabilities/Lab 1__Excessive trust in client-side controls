@@ -1,1 +1,19 @@
+Steps to Solve:
 
+-Log in using:
+Username: wiener
+Password: peter
+-Add the Lightweight l33t leather jacket to the cart.
+-Attempt to purchase the item.
+-Open Burp Suite and go to:
+Proxy → HTTP history
+-Locate the POST /cart request.
+-Send the request to Repeater.
+-Modify the price parameter to a lower value.
+
+Example:
+
+-productId=1&redir=PRODUCT&quantity=1&price=1
+-Send the modified request.
+-Refresh the cart and confirm the price has changed.
+-Complete the purchase to solve the lab.
