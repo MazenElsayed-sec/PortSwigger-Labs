@@ -1,0 +1,21 @@
+Steps to Solve:
+
+-Discover the hidden /admin endpoint.
+-Browse to:
+/admin
+-Notice that access is restricted to DontWannaCry users.
+-Register a new account using an email in this format:
+anything@your-email-id.web-security-academy.net
+-Confirm the account through the Email Client.
+-Log in with the new account.
+-Go to:
+My account
+-Change the email address to a @dontwannacry.com address.
+
+Example:
+
+-test@dontwannacry.com
+-Access the admin panel through:
+/admin
+-Delete the user carlos.
+-The lab is solved.
