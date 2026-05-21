@@ -1,0 +1,28 @@
+Steps to Solve:
+
+-Discover the hidden /admin endpoint.
+-Browse to:
+/admin
+-Notice that only DontWannaCry users can access the admin panel.
+-Open the Email Client and copy your unique email domain:
+@YOUR-EMAIL-ID.web-security-academy.net
+-Register a new account using a very long email address:
+very-long-string@YOUR-EMAIL-ID.web-security-academy.net
+-Make sure the local part is longer than 200 characters.
+-Confirm the account from the Email Client.
+-Log in and check the My account page.
+-Notice that the email address is truncated to:
+255 characters
+-Log out and register another account using this format:
+very-long-string@dontwannacry.com.YOUR-EMAIL-ID.web-security-academy.net
+-Adjust the length so the m in:
+@dontwannacry.com
+
+is exactly character 255.
+
+-Confirm the new account through the Email Client.
+-Log in with the new account.
+-Access the admin panel:
+/admin
+-Delete the user carlos.
+-The lab is solved.
