@@ -1,0 +1,23 @@
+Steps to Solve:
+
+-Log in using:
+Username: wiener
+Password: peter
+-Notice that after login you are redirected to:
+GET /role-selector
+-Discover the hidden admin endpoint:
+/admin
+-Log out and start the login process again with Burp interception enabled.
+-Forward the login request:
+POST /login
+-When the following request appears:
+GET /role-selector
+
+-drop the request instead of forwarding it.
+
+-Browse directly to the home page.
+-Notice that your role defaults to the administrator role.
+-Access the admin panel:
+/admin
+-Delete the user carlos.
+-The lab is solved.
