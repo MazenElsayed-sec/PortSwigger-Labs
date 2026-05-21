@@ -1,0 +1,13 @@
+Steps to Solve:
+
+-Log in using:
+Username: wiener
+Password: peter
+-Buy any cheap item you can afford.
+-Locate the order confirmation request:
+GET /cart/order-confirmation?order-confirmation=true
+-Send the request to Repeater.
+-Add the Lightweight l33t leather jacket to the cart.
+-Resend the order confirmation request from Repeater.
+-Notice that the order is completed without deducting the jacket price from your store credit.
+-The lab is solved.
