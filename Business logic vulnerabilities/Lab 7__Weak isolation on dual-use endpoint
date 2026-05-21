@@ -1,0 +1,23 @@
+Steps to Solve:
+
+-Log in using:
+Username: wiener
+Password: peter
+-Go to the account page and change your password.
+-Intercept the password change request:
+POST /my-account/change-password
+-Send the request to Repeater.
+-Remove the current-password parameter from the request.
+-Notice that the password can still be changed without providing the current password.
+-Modify the username parameter:
+username=administrator
+-Set a new password for the administrator account and send the request.
+-Log out.
+-Log in as:
+administrator
+
+-using the new password you set.
+
+-Access the admin panel.
+-Delete the user carlos.
+-The lab is solved.
