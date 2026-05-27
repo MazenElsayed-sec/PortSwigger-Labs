@@ -1,0 +1,27 @@
+Steps to Solve:
+
+-Test the login mechanism with invalid passwords and observe that the account becomes temporarily locked after multiple failed attempts.
+-Notice that the rate limit is applied per username.
+-Capture a failed login request:
+POST /login
+-Send the request to Repeater.
+-Create a Repeater group.
+-Duplicate the request into multiple tabs inside the same group.
+-In each tab:
+Set:
+username=carlos
+-Use a different password from the wordlist.
+-Send all grouped requests in parallel instead of sequentially.
+-Observe that multiple login attempts are processed before the rate limit activates.
+-Look for a response with:
+302
+-Identify the correct password from the successful tab.
+-Wait for the temporary lock to reset if needed.
+-Log in as:
+carlos
+
+-using the discovered password.
+
+-Access the admin panel.
+-Delete the user carlos.
+-The lab is solved.
