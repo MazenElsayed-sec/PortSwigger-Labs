@@ -1,0 +1,26 @@
+Steps to Solve:
+
+-Log in using:
+Username: wiener
+Password: peter
+-Change your email once normally and confirm it through the email client.
+-Capture the email change request:
+POST /my-account/change-email
+-Send the request to Repeater.
+-Create a Repeater group with two copies of the request.
+-In the first request, set your own email:
+anything@exploit-<YOUR-ID>.exploit-server.net
+-In the second request, set the target email:
+carlos@ginandjuice.shop
+-Send both requests in parallel.
+-Check the email client.
+-If you receive a confirmation email where the email inside the message body is:
+carlos@ginandjuice.shop
+
+-click the confirmation link.
+
+-Go to your account page and confirm your account now uses:
+carlos@ginandjuice.shop
+-Access the admin panel.
+-Delete the user carlos.
+-The lab is solved.
