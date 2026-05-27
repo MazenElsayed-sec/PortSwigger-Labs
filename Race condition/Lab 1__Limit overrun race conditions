@@ -1,0 +1,23 @@
+Steps to Solve:
+
+-Log in using:
+Username: wiener
+Password: peter
+-Add any cheap item to the cart.
+-Apply the available discount coupon once and observe the normal behavior.
+-Identify the coupon request:
+POST /cart/coupon
+-Send the request to Repeater.
+-Create a Repeater group and duplicate the request multiple times (for example 20 tabs).
+-Send the requests sequentially and observe:
+First request succeeds
+-Remaining requests return:
+Coupon already applied
+-Remove the coupon from the cart.
+-Send all grouped requests in parallel instead of sequentially.
+-Observe that multiple requests succeed simultaneously.
+-Refresh the cart and confirm the discount was applied multiple times.
+-Remove the cheap item and add the Lightweight L33t Leather Jacket to the cart.
+-Repeat the parallel coupon attack until the total price becomes lower than your available store credit.
+-Complete the purchase.
+-The lab is solved.
