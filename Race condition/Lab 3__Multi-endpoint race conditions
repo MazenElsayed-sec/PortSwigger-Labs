@@ -1,0 +1,22 @@
+Steps to Solve:
+
+-Log in using:
+Username: wiener
+Password: peter
+-Add a gift card to the cart.
+-Capture these requests:
+POST /cart
+POST /cart/checkout
+-Send both requests to Repeater.
+-Create a Repeater group containing the two requests.
+-Modify the POST /cart request and change the product ID to the jacket product ID:
+productId=1
+-Make sure the cart currently contains only a cheap gift card.
+-Send the two requests sequentially and observe the purchase fails insufficient funds.
+-Keep the same grouped requests.
+-Send the requests in parallel instead of sequentially.
+-Repeat the parallel attack several times if needed.
+-Eventually one request succeeds and returns:
+200 OK
+-Check the order history and confirm the Lightweight L33t Leather Jacket was purchased successfully.
+-The lab is solved.
