@@ -1,0 +1,15 @@
+Solution Steps:
+
+1. Load the home page with Burp Suite running.
+2. In Proxy → HTTP history, notice the response sets:
+   fehost=prod-cache-01
+3. Reload the home page and confirm the fehost cookie is reflected inside a JavaScript object.
+4. Send the request to Burp Repeater.
+5. Add a cache-buster parameter.
+6. Change the fehost cookie value to any string and verify it is reflected in the response.
+7. Replace the cookie value with:
+   fehost="-alert(1)-"
+8. Replay the request until the payload is reflected and the response contains:
+   X-Cache: hit
+9. Load the URL in the browser and confirm alert(1) is triggered.
+10. Remove the cache-buster and keep replaying the request until the victim visits the poisoned page and the lab is solved.
