@@ -1,0 +1,14 @@
+Solution Steps:
+
+1. Load the home page and confirm it is a cache oracle.
+2. Add a cache-buster query parameter and observe that changing the query string causes a cache miss.
+3. Use Param Miner → Guess GET parameters to identify:
+   utm_content
+4. Add the utm_content parameter and verify it is unkeyed by still receiving X-Cache: hit.
+5. Keep sending the request until you get a cache miss and confirm utm_content is reflected in the response.
+6. Send the following payload:
+   ?utm_content='/><script>alert(1)</script>
+7. Once the payload is cached, remove the utm_content parameter.
+8. Copy the request URL and open it in the browser to verify alert(1) is triggered.
+9. Remove the cache-buster, re-add the utm_content payload, and replay the request until the cache is poisoned for normal users.
+10. Wait for the victim to visit the poisoned home page and the lab will be solved.
