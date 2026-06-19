@@ -1,0 +1,13 @@
+Solution Steps:
+
+1. In Burp Repeater, request any non-existent path:
+   GET /random
+2. Confirm that the requested path is reflected in the error message.
+3. Replace the path with the XSS payload:
+   GET /random</p><script>alert(1)</script><p>foo
+4. Poison the cache using this request.
+5. Immediately load the same URL in the browser and verify that alert(1) is executed due to cache normalization.
+6. Re-poison the cache.
+7. Go back to the lab and click Deliver link to victim.
+8. Submit the malicious URL.
+9. The lab is solved when the victim visits the cached malicious URL.
