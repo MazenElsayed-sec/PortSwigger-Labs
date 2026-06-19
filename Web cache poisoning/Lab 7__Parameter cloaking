@@ -1,0 +1,18 @@
+Solution Steps:
+
+1. Identify that the utm_content parameter is supported and excluded from the cache key.
+2. Confirm that appending another parameter with a semicolon (;) to utm_content is also excluded from the cache key.
+3. Send the following request to Burp Repeater:
+   GET /js/geolocate.js?callback=setCountryCookie
+4. Verify that the callback parameter controls the returned function name.
+5. Send:
+   GET /js/geolocate.js?callback=setCountryCookie&utm_content=foo;callback=arbitraryFunction
+6. Confirm the response executes:
+   arbitraryFunction({"country":"United Kingdom"})
+   while the cache key remains:
+   /js/geolocate.js?callback=setCountryCookie
+7. Replace the cloaked callback with:
+   GET /js/geolocate.js?callback=setCountryCookie&utm_content=foo;callback=alert(1)
+8. Replay the request until the malicious response is cached.
+9. Load the home page and verify that alert(1) is triggered.
+10. Keep replaying the request until the victim visits a page importing /js/geolocate.js and the lab is solved.
