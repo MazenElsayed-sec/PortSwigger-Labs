@@ -1,1 +1,17 @@
+Solution Steps:
 
+1. Load the home page with Burp Suite running.
+2. In Proxy → HTTP history, find the GET / request and send it to Repeater.
+3. Add arbitrary query parameters and verify that X-Cache: hit is still returned, confirming the query string is unkeyed.
+4. Add the following header as a cache buster:
+   Origin: https://example.com
+5. Confirm you receive a cache miss and that injected query parameters are reflected in the response.
+6. Add the following payload to the query string:
+   ?evil='/><script>alert(1)</script>
+7. Replay the request until the payload is reflected and the response contains:
+   X-Cache: hit
+8. Remove the query string while keeping the same Origin header and verify the cached response still contains the payload.
+9. Remove the Origin header and add the payload back to the query string.
+10. Replay the request until the cache is poisoned for normal users.
+11. Load the home page in the browser and confirm alert(1) is triggered.
+12. If the lab is not solved after about 35 seconds, repeat the poisoning request until the victim visits the poisoned page.
