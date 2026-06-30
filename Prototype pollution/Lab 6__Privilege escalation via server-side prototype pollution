@@ -1,0 +1,71 @@
+Steps to Solve:
+
+1. Capture the Request
+
+Log in using the provided credentials:
+Username: wiener
+Password: peter
+
+Go to My Account and submit the address update form.
+
+Intercept the POST /my-account/change-address request in Burp Suite and send it to Repeater.
+
+---
+
+2. Identify the Prototype Pollution Source
+
+Add the following property to the JSON body:
+"__proto__": {
+    "foo": "bar"
+}
+
+Send the request.
+
+Observe that the response contains the foo property, but not the __proto__ property itself.
+
+This confirms that the application merges user input into a server-side object and pollutes Object.prototype.
+
+---
+
+3. Identify the Gadget
+
+Inspect the JSON response.
+
+Notice the isAdmin property.
+
+This property controls whether the current user has administrator privileges.
+
+---
+
+4. Exploit the Gadget
+
+Replace the payload with:
+"__proto__": {
+    "isAdmin": true
+}
+
+Send the request.
+
+The response now shows:
+"isAdmin": true
+
+indicating that the property is inherited from the polluted prototype.
+
+---
+
+5. Access the Admin Panel
+
+Refresh the page.
+
+An Admin Panel link now appears.
+
+Open the admin panel.
+
+---
+
+6. Solve the Lab
+
+Delete the user:
+carlos
+
+The lab is solved successfully.
