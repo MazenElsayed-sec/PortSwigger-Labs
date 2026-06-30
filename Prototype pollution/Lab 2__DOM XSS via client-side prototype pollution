@@ -1,0 +1,86 @@
+Steps to Solve:
+
+1. Find a Prototype Pollution Source
+
+Inject an arbitrary property into Object.prototype using the query string:
+/?__proto__[foo]=bar
+
+Open DevTools → Console and execute:
+Object.prototype
+
+Verify that the injected foo property has been added to Object.prototype.
+
+2. Identify the Gadget
+
+Open DevTools → Sources and inspect the JavaScript files.
+
+In searchLogger.js, notice that config.transport_url is used to dynamically set the src attribute of a <script> element.
+
+Also observe that the transport_url property is not defined in the config object, making it possible to inherit the value from Object.prototype.
+
+3. Confirm the Gadget
+
+Inject a transport_url property into Object.prototype:
+/?__proto__[transport_url]=foo
+
+Open DevTools → Elements and verify that the page creates:
+<script src="foo"></script>
+
+This confirms that the gadget is controllable through prototype pollution.
+
+4. Trigger DOM XSS
+
+Replace the payload with a data: URL:
+/?__proto__[transport_url]=data:,alert(1);
+
+The application creates the following script element:
+<script src="data:,alert(1);"></script>
+
+The browser executes:
+alert(1)
+
+The lab is now solved.
+
+----------------------------------------------------------
+
+Alternative Solution (Using DOM Invader)
+
+1. Open the Lab
+
+Launch the lab using Burp Suite's built-in browser.
+
+---
+
+2. Enable DOM Invader
+
+- Enable DOM Invader.
+- Enable the Prototype Pollution option.
+- Reload the page.
+
+---
+
+3. Detect the Source
+
+Open DevTools → DOM Invader.
+
+DOM Invader identifies the prototype pollution source in the query string.
+
+---
+
+4. Scan for Gadgets
+
+Click:
+Scan for gadgets
+
+Wait for the scan to complete.
+
+DOM Invader identifies the script.src sink through the transport_url gadget.
+
+---
+
+5. Generate the Exploit
+
+Click:
+Exploit
+
+DOM Invader automatically generates the exploit, executes alert(1), and solves the lab.
