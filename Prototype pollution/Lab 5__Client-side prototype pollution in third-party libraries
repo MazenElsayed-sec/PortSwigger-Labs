@@ -1,0 +1,70 @@
+Steps to Solve:
+
+1. Identify the Source
+
+Open the lab using Burp Suite's built-in browser.
+
+Enable DOM Invader and activate the Prototype Pollution option.
+
+Open DevTools → DOM Invader and reload the page.
+
+DOM Invader identifies two prototype pollution vectors in the URL fragment (hash).
+
+---
+
+2. Find the Gadget
+
+Click:
+Scan for gadgets
+
+Wait for the scan to complete.
+
+DOM Invader identifies the setTimeout() sink through the hitCallback gadget.
+
+---
+
+3. Verify the Gadget
+
+Click:
+Exploit
+
+DOM Invader automatically generates a proof-of-concept payload and executes:
+alert(1)
+
+---
+
+4. Disable DOM Invader
+
+Disable DOM Invader before crafting the final exploit.
+
+---
+
+5. Create the Exploit
+
+Open the lab's Exploit Server.
+
+Use the following payload:
+<script>
+location="https://YOUR-LAB-ID.web-security-academy.net/#__proto__[hitCallback]=alert(document.cookie)"
+</script>
+
+Replace YOUR-LAB-ID with your lab URL.
+
+---
+
+6. Test the Exploit
+
+Click View Exploit.
+
+Verify that:
+
+- You are redirected to the lab.
+- alert(document.cookie) is executed.
+
+---
+
+7. Deliver the Exploit
+
+Click Deliver to victim.
+
+The victim loads the malicious URL, alert(document.cookie) executes, and the lab is solved.
