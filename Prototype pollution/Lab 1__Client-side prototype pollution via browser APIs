@@ -23,7 +23,7 @@ In searchLoggerConfigurable.js, notice that:
 3. Confirm the Gadget
 
 Pollute the value property:
-/?__proto__[transport_url]=foo
+/?__proto__[value]=foo
 
 
 Open DevTools → Elements and verify that the page creates:
@@ -34,7 +34,7 @@ This confirms that the gadget is controllable through prototype pollution.
 4. Trigger DOM XSS
 
 Replace the payload with a data: URL:
-/?__proto__[transport_url]=data:,alert(1);
+/?__proto__[value]=data:,alert(1);
 
 The browser loads the generated script and executes:
 alert(1)
@@ -74,7 +74,7 @@ Scan for gadgets
 
 Wait for the scan to complete.
 
-DOM Invader identifies the script.src sink through the transport_url gadget.
+DOM Invader identifies the script.src sink through the value gadget.
 
 ---
 
