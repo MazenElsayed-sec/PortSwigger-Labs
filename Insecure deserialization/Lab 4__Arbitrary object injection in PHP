@@ -1,0 +1,31 @@
+Steps to Solve:
+
+1. Log in using the provided credentials:
+   Username: wiener
+   Password: peter
+
+2. Intercept a request containing the session cookie.
+
+3. From the site map, locate:
+   /libs/CustomTemplate.php
+
+4. Send the request to Burp Repeater and append a ~ to the filename:
+   /libs/CustomTemplate.php~
+
+5. Review the source code and identify the __destruct() magic method.
+
+6. Notice that the __destruct() method calls unlink() on the lock_file_path property.
+
+7. Create the following serialized PHP object:
+   O:14:"CustomTemplate":1:{s:14:"lock_file_path";s:23:"/home/carlos/morale.txt";}
+
+8. Base64 encode and URL encode the serialized object.
+
+9. Replace the original session cookie with the encoded payload.
+
+10. Send the modified request.
+
+11. The __destruct() method is automatically executed, deleting:
+    /home/carlos/morale.txt
+
+12. The lab is now solved.
