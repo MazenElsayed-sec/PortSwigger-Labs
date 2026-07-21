@@ -1,0 +1,35 @@
+Steps to Solve:
+
+1. Log in using the provided credentials:
+   Username: wiener
+   Password: peter
+
+2. After logging in, intercept the GET /my-account request using Burp Suite.
+
+3. Locate the session cookie.
+
+4. Use Inspector to decode the cookie. It will be displayed as a serialized PHP object.
+
+5. Find the following property:
+   admin|b:0
+
+6. Change the value from:
+   b:0
+   to:
+   b:1
+
+7. Click Apply changes so Burp automatically re-encodes the modified object.
+
+8. Forward the request.
+
+9. Verify that the response now contains access to the Admin Panel
+    /admin
+
+10. Change the request path to:
+    GET /admin
+    and send the request.
+
+11. Delete the target user by sending the following request:
+    GET /admin/delete?username=carlos
+
+12. The lab is now solved.
