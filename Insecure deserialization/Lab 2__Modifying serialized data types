@@ -1,0 +1,35 @@
+Steps to Solve
+
+1. Log in using the provided credentials:
+   Username: wiener
+   Password: peter
+
+2. Intercept the GET /my-account request in Burp Suite after logging in.
+
+3. Locate the session cookie and open it using Inspector to reveal the serialized PHP object.
+
+4. Modify the serialized object as follows:
+   - Change the username value from wiener to administrator.
+   - Update the username length from 6 to 13.
+   - Change the access_token from a String to an Integer.
+   - Replace the value with 0.
+   - Change the data type from s (String) to i (Integer).
+
+5. The modified object should look like this:
+   O:4:"User":2:{s:8:"username";s:13:"administrator";s:12:"access_token";i:0;}
+
+6. Click Apply changes so Burp automatically re-encodes the modified cookie.
+
+7. Send the request.
+
+8. Verify that the response now contains a link to the Admin Panel:
+   /admin
+
+9. Change the request path to:
+   GET /admin
+   and send the request.
+
+10. Delete the target user by sending the following request:
+    GET /admin/delete?username=carlos
+
+11. The lab is now solved.
