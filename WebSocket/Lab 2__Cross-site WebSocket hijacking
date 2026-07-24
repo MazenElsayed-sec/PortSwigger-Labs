@@ -1,0 +1,13 @@
+Steps to Solve:
+
+1. Open the Live Chat feature and send a message.
+2. Reload the page and observe that the client sends the READY command to retrieve previous chat messages.
+3. Capture the WebSocket handshake request in Burp Suite and copy its URL.
+4. Create a malicious page on the exploit server that:
+   * Opens a WebSocket connection to the target.
+   * Sends the READY command.
+   * Forwards each received message to Burp Collaborator.
+5. Test the exploit and verify that chat messages are exfiltrated.
+6. Deliver the exploit to the victim.
+7. Retrieve the victim's chat history from Burp Collaborator.
+8. Extract the leaked credentials and log in as the victim.
