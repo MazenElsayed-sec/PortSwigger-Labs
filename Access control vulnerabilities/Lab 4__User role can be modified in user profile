@@ -1,0 +1,16 @@
+Steps:
+
+1. Log in using the provided credentials:
+   Username: wiener
+   Password: peter
+2. Navigate to your account page.
+3. Update the email address associated with your account.
+4. Intercept the email update request and send it to Burp Repeater.
+5. Inspect the JSON request body and add the following parameter:
+   {
+     "roleid": 2
+   }
+6. Resend the modified request and verify that your account's roleid has been updated to 2.
+7. Access the admin panel:
+   /admin
+8. Delete the user carlos to complete the lab.
