@@ -1,0 +1,13 @@
+Steps:
+
+1. Browse the blog posts and locate one authored by carlos.
+2. Click on carlos's profile and note the GUID value in the id parameter of the URL.
+
+3. Log in using the provided credentials:
+   Username: wiener
+   Password: peter
+4. Navigate to your account page.
+5. Replace your own id parameter in the URL with carlos's GUID.
+6. Load the modified URL.
+7. Retrieve carlos's API key.
+8. Submit the API key to complete the lab.
