@@ -1,0 +1,9 @@
+Steps:
+
+1. Access the robots.txt file by navigating to:
+   /robots.txt
+2. Review the contents of the file and identify the path disclosed in the Disallow directive.
+3. Navigate to the discovered admin panel path:
+   /administrator-panel
+4. Access the admin interface.
+5. Delete the user carlos to complete the lab.
