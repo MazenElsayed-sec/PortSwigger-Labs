@@ -1,0 +1,17 @@
+Steps:
+
+1. Log in using the administrator credentials:
+   Username: administrator
+   Password: admin
+2. Navigate to the admin panel.
+3. Promote a user and intercept the request using Burp Suite.
+4. Open a private/incognito window and log in as the low-privileged user:
+   Username: wiener
+   Password: peter
+5. Attempt to access the role upgrade endpoint directly:
+   /admin-roles?username=wiener&action=upgrade
+   Observe that the request is rejected because the required Referer header is missing.
+6. Copy the wiener session cookie into the intercepted admin request.
+7. Change the username parameter to:
+   wiener
+8. Replay the request while preserving the valid Referer header to promote your account to administrator.
