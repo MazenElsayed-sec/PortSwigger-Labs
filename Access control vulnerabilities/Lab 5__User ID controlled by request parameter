@@ -1,0 +1,13 @@
+Steps:
+
+1. Log in using the provided credentials:
+   Username: wiener
+   Password: peter
+2. Navigate to your account page.
+3. Observe that the account URL contains your username in the id parameter.
+4. Send the request to Burp Repeater.
+5. Modify the id parameter from your username to:
+   carlos
+6. Resend the request.
+7. Retrieve the API key belonging to carlos.
+8. Submit the API key to complete the lab.
