@@ -1,0 +1,8 @@
+Steps:
+
+1. Open the lab's home page.
+2. View the page source or inspect the JavaScript files using your browser's Developer Tools or Burp Suite.
+3. Identify the hidden URL of the admin panel disclosed within the JavaScript code.
+4. Navigate to the discovered admin panel URL.
+5. Access the admin interface.
+6. Delete the user carlos to complete the lab.
