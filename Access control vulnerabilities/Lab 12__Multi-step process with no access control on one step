@@ -1,0 +1,14 @@
+Steps:
+
+1. Log in using the administrator credentials:
+   Username: administrator
+   Password: admin
+2. Navigate to the admin panel.
+3. Start the process of promoting a user and intercept the confirmation request using Burp Suite.
+4. Open a private/incognito window and log in as the low-privileged user:
+   Username: wiener
+   Password: peter
+5. Replace the session cookie in the intercepted confirmation request with the wiener session cookie.
+6. Modify the username parameter to:
+   wiener
+7. Replay the request to promote your own account to administrator.
