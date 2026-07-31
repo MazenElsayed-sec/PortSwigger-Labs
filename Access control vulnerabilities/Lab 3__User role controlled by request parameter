@@ -1,0 +1,17 @@
+Steps:
+
+1. Log in using the provided credentials:
+   Username: wiener
+   Password: peter
+2. Attempt to access the admin panel:
+   /admin
+   Verify that access is denied.
+3. Intercept the login response using Burp Suite.
+4. Inspect the response headers and identify the following cookie:
+   Admin=false
+5. Modify the cookie value to:
+   Admin=true
+6. Forward the modified response and ensure the updated cookie is stored by the browser.
+7. Navigate to:
+   /admin
+8. Access the admin panel and delete the user carlos.
