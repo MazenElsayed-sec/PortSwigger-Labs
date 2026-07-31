@@ -1,0 +1,9 @@
+Steps:
+1. Open the Live Chat feature.
+2. Send any message and select View Transcript.
+3. Observe that the transcript is stored as a text file with an incrementing filename (e.g., 2.txt).
+4. Modify the URL to access:
+   /1.txt
+5. Review the transcript and locate carlos's password.
+6. Return to the login page.
+7. Log in using carlos's stolen credentials to complete the lab.
