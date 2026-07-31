@@ -1,0 +1,16 @@
+Steps:
+
+1. Log in using the administrator credentials:
+   Username: administrator
+   Password: admin
+2. Navigate to the admin panel.
+3. Promote the user carlos and intercept the request using Burp Suite.
+4. Open a private/incognito window and log in as the low-privileged user:
+   Username: wiener
+   Password: peter
+5. Replace the session cookie in the intercepted request with the wiener session cookie.
+6. Resend the original request and observe that access is denied.
+7. Change the HTTP method from POST to GET.
+8. Update the username parameter to:
+   wiener
+9. Send the modified request to promote your own account to administrator.
