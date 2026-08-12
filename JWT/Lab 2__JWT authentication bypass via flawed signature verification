@@ -1,0 +1,31 @@
+Solution:
+
+1. Log in to the lab using:
+   wiener:peter
+2. Open Burp Suite → Proxy → HTTP history.
+3. Find the post-login request:
+   GET /my-account
+4. Identify the session cookie as a JWT.
+5. Double-click the JWT payload to open it in the Inspector.
+6. Send the request to Burp Repeater.
+7. Change the request path to:
+   GET /admin
+8. In the JWT payload, change:
+   "sub": "wiener"
+   to:
+   "sub": "administrator"
+9. Click Apply changes.
+10. Select the JWT header and change:
+    "alg": "HS256"
+    to:
+    "alg": "none"
+11. Click Apply changes.
+12. In the message editor, remove the JWT signature while keeping the trailing dot after the payload:
+    Header.Payload.
+13. Send the request:
+    GET /admin
+14. Find the delete endpoint in the response:
+    /admin/delete?username=carlos
+15. Send a request to:
+    GET /admin/delete?username=carlos
+16. The lab is solved.
