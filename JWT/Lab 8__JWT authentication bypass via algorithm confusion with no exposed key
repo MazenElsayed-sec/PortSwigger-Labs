@@ -1,0 +1,48 @@
+Solution:
+
+1. Install the JWT Editor extension from the Burp BApp Store.
+2. Log in using:
+   wiener:peter
+3. In Burp → Proxy → HTTP history, find the:
+   GET /my-account
+   request.
+4. Send the request to Burp Repeater.
+5. Copy the JWT session cookie and save it as the first token.
+6. Log out and log in again using:
+   wiener:peter
+7. Copy the new JWT session cookie and save it as the second token.
+8. Run:
+   docker run --rm -it portswigger/sig2n <token1> <token2>
+9. From the output, copy the tampered JWT from the first X.509 entry.
+10. In Burp Repeater, change the request path to:
+    GET /my-account
+11. Replace the session cookie with the tampered JWT and send the request.
+12. If you receive:
+    200 OK
+    the corresponding X.509 key is correct.
+13. If you receive:
+    302 → /login
+    try the tampered JWT corresponding to the next X.509 key from the sig2n output.
+14. Repeat until you identify the correct X.509 key.
+15. Copy the Base64-encoded X.509 public key corresponding to the correct candidate.
+16. Go to JWT Editor Keys and click New Symmetric Key.
+17. Click Generate.
+18. Replace the value of the k property with the Base64-encoded X.509 public key.
+19. Save the key.
+20. Return to the request in Burp Repeater and change the path to:
+    GET /admin
+21. Open the JSON Web Token tab.
+22. Make sure the alg parameter is:
+    "alg": "HS256"
+
+23. Change the sub claim to:
+    "sub": "administrator"
+24. Click Sign and select the symmetric key generated earlier.
+25. Make sure Don't modify header is selected, then click OK.
+26. Send the request:
+    GET /admin
+27. Find the delete endpoint:
+    /admin/delete?username=carlos
+28. Send:
+    GET /admin/delete?username=carlos
+29. The lab is solved.
