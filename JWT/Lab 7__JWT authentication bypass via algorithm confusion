@@ -1,0 +1,41 @@
+Solution:
+
+1. Install the JWT Editor extension from the Burp BApp Store.
+2. Log in using:
+   wiener:peter
+3. In Burp → Proxy → HTTP history, find the:
+   GET /my-account
+   request.
+4. Send the request to Burp Repeater.
+5. Change the path to:
+   GET /admin
+6. Open the following endpoint in the browser:
+   /jwks.json
+7. Copy the JWK object from inside the keys array.
+8. In Burp, go to JWT Editor Keys.
+9. Click New RSA Key.
+10. Make sure JWK is selected, paste the copied JWK, then click OK.
+11. Right-click the generated key and select Copy Public Key as PEM.
+12. Open the Decoder tab and Base64-encode the copied PEM key.
+13. Copy the resulting Base64 value.
+14. Return to JWT Editor Keys and click New Symmetric Key.
+15. Click Generate.
+16. Replace the value of the k property with the Base64-encoded PEM:
+    "k": "<BASE64-ENCODED-PEM>"
+17. Save the key.
+18. Return to the GET /admin request in Burp Repeater.
+19. Open the JSON Web Token tab.
+20. Change the alg value in the JWT header to:
+    "alg": "HS256"
+21. Change the sub claim to:
+    "sub": "administrator"
+22. Click Sign.
+23. Select the symmetric key generated earlier.
+24. Make sure Don't modify header is selected, then click OK.
+25. Send the request:
+    GET /admin
+26. Find the delete endpoint in the response:
+    /admin/delete?username=carlos
+27. Send a request to:
+    GET /admin/delete?username=carlos
+28. The lab is solved.
