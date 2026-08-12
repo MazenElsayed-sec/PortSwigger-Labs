@@ -1,0 +1,40 @@
+Solution:
+
+1. Install the JWT Editor extension from the Burp BApp Store.
+2. Log in using:
+   wiener:peter
+3. In Burp → Proxy → HTTP history, find the:
+   GET /my-account
+   request.
+4. Send the request to Burp Repeater.
+5. Change the path to:
+   GET /admin
+6. Go to the JWT Editor Keys tab.
+7. Click New RSA Key.
+8. Click Generate, then click OK to save the key.
+9. Open the Exploit Server in the browser.
+10. Replace the contents of the Body section with:
+    {
+      "keys": []
+    }
+11. In JWT Editor Keys, right-click the RSA key you generated and select:
+    Copy Public Key as JWK.
+12. Paste the copied JWK inside the keys array on the Exploit Server.
+13. Store the exploit.
+14. Return to the GET /admin request in Burp Repeater.
+15. Open the JSON Web Token tab.
+16. Replace the kid value in the JWT header with the kid value of the JWK uploaded to the Exploit Server.
+17. Add the following parameter to the JWT header:
+    "jku": "https://YOUR-EXPLOIT-SERVER/exploit"
+18. Change the sub claim in the payload to:
+    "sub": "administrator"
+19. Click Sign.
+20. Select the RSA key you generated.
+21. Make sure Don't modify header is selected, then click OK.
+22. Send the request:
+    GET /admin
+23. Find the delete endpoint in the response:
+    /admin/delete?username=carlos
+24. Send a request to:
+    GET /admin/delete?username=carlos
+25. The lab is solved.
