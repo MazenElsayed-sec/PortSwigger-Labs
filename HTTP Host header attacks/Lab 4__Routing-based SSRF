@@ -1,0 +1,51 @@
+Steps:
+
+1. Send the GET / request that returned 200 OK to Burp Repeater.
+
+2. Replace the Host header with a Burp Collaborator payload and send the request.
+
+3. Go to the Collaborator tab and click Poll now. Confirm that HTTP interactions were received.
+
+4. Send the original GET / request to Burp Intruder.
+
+5. In Intruder, disable:
+   Update Host header to match target
+
+6. Replace the Host header with:
+   Host: 192.168.0.§0§
+
+7. Configure the payload type as Numbers:
+   From: 0
+   To: 255
+   Step: 1
+
+8. Start the attack.
+
+9. Sort the results by the Status column and identify the request that returned:
+   302
+   with a redirect to:
+   /admin
+
+10. Send this request to Burp Repeater.
+
+11. Change the request path to:
+GET /admin
+
+and send it.
+
+12. Confirm that the internal admin panel is accessible.
+
+13. Inspect the delete-user functionality and obtain the CSRF token and session cookie from the response.
+
+14. Change the request path to:
+/admin/delete
+
+15. Add the CSRF token and target username as query parameters:
+/admin/delete?csrf=<CSRF-TOKEN>&username=carlos
+
+16. Add the session cookie from the Set-Cookie header to the request.
+
+17. Right-click the request and select:
+    Change request method
+
+18. Send the resulting POST request to delete carlos and solve the lab.
