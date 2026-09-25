@@ -1,0 +1,18 @@
+Steps:
+
+1. Send the GET / request that returned a 200 OK response to Burp Repeater.
+2. Change the Host header to an arbitrary value and confirm that the request still returns the home page.
+3. Browse to:
+   /robots.txt
+4. Identify the admin panel at:
+   /admin
+5. Browse to /admin and observe that access is denied. The error message indicates that the admin panel is only accessible to local users.
+6. Send the following request to Burp Repeater:
+   GET /admin HTTP/1.1
+   Host: <lab-domain>
+7. Change the Host header to:
+   Host: localhost
+8. Send the request and confirm that the admin panel is now accessible.
+9. Change the request path to:
+   GET /admin/delete?username=carlos
+10. Send the request to delete carlos and solve the lab.
